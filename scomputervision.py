@@ -9,7 +9,7 @@ def register_face(id, image_path=None, live = False):
     result = {"success": False, "message": "", "id": id, "image_path": ""}
 
     # define the path to the image_database directory
-    img_db_path = os.path.join(settings.MEDIA_ROOT, 'img_db')
+    img_db_path = os.path.join(os.getcwd(), 'img_db')
 
     # create the database if it does not exist
     if not os.path.exists(img_db_path):
