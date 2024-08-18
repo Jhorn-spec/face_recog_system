@@ -1,24 +1,64 @@
 import streamlit as st
-from scomputervision import register_face
+from scomputervision import register_face, face_detect
 from deepface import DeepFace
 import tempfile
+import base64
+from io import BytesIO
+from PIL import Image
+import os
+
+def get_img_base64(ge: Image):
+    buffered = BytesIO()
+    image.save(buffered, format="PNG")
+    return base64.b64encode(buffered.getvalue()).decode()
+
+def process_img(uploaded_image):
+     image = Image.open(uploaded_image)
+     with tempfile.NamedTemporaryFile(delete=False, suffix=".png") as file:
+        temp_path = file.name
+        image.save(temp_path)
+        return temp_path, image
 
 st.header("Welcome to Face Recognition Interface")
 
 name = st.text_input("Enter your name", key="name")
 id = st.text_area("Enter id number, e.g. matric number", key="id")
 
-uploaded_file = st.file_uploader("Upload an image", type=["jpg", "jpeg", "png"], accept_multiple_files=False)
-st.write(uploaded_file)
-# create button at the center
+# Load the CSS file
+with open('style.css') as f:
+    st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
-if uploaded_file is not None:
-    with tempfile.NamedTemporaryFile(delete=False) as file:
-        # file.write(uploaded_file.getbuffer())
-        temp_path = file.name
+uploaded_image = st.file_uploader("Upload  image", type=["jpg", "jpeg", "png"], accept_multiple_files=False)
+image = Image.open(uploaded_image)
+image_base64 = get_img_base64(image)
+l, m, r = st.columns(3)
+with m:
+    st.markdown(
+        f"""
+        <img class="circle-img" src="data:image/png;base64,{image_base64}">
+        """,
+        unsafe_allow_html=True
+    )
+st.write("")
+rc, _, lc = st.columns(3)
+if rc.button("Register"):
+        if uploaded_image is not None:
+            path, image = process_img(uploaded_image)
+        
+        result = register_face(id, path)
+        st.markdown(f"<div class='registered'>{result}</div>", unsafe_allow_html=True)
+        # st.write(result)
+        os.remove(path)
+
+if lc.button("Recognize"):
+    if uploaded_image is not None:
+         path, image= process_img(uploaded_image)
     
-    if st.button("Register"):
-        result = register_face(id, temp_path, live=True)
-        st.write(result)
+    result = face_detect(path)
+    st.markdown(f"<div class='registered'>{result}</div>", unsafe_allow_html=True)
+    st.write(result)
+    os.remove(path)
+
+
 
 

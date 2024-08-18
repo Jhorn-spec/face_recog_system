@@ -1,0 +1,20 @@
+.circle-img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.register {
+    display: flex;
+    justify-content: center;
+}
+
+.registered {
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 5px;
+    color: #333;
+    font-weight: bold;
+    text-align: center;
+}

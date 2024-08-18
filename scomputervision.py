@@ -3,9 +3,10 @@ import cv2
 from cv2 import VideoCapture
 from deepface import DeepFace
 import os
+import matplotlib.pyplot as plt
 
 
-def register_face(id, image_path=None, live = False):
+def register_face(id, upload_image=None, live = False):
     result = {"success": False, "message": "", "id": id, "image_path": ""}
 
     # define the path to the image_database directory
@@ -89,12 +90,12 @@ def register_face(id, image_path=None, live = False):
     # Load the image
     else:
         # check image_path is not None
-        if image_path is None:
-            result["message"] = "image_path is None"
+        if upload_image is None:
+            result["message"] = "No image provided"
             print(result["message"])
             return result
 
-        frame = cv2.imread(image_path)
+        frame = cv2.imread(upload_image)
 
         # perform face detection
         face = detector(frame)
@@ -103,6 +104,8 @@ def register_face(id, image_path=None, live = False):
             x, y , w, h, _, _ = face[0]['facial_area'].values()
             cv2.rectangle(frame, (x,y), (x+w, y+h), (0, 255, 0), 3)
             crop_img = frame[y:y+h, x:x+w]
+
+            plt.imshow(crop_img)
 
             # Display the image with the detected face
             # cv2.imshow('detect face', frame)
@@ -130,7 +133,7 @@ def register_face(id, image_path=None, live = False):
 
 # take in the path to the image database
 def face_detect(image_path):
-    img_db_path = img_db_path = os.path.join(settings.MEDIA_ROOT, 'img_db')
+    img_db_path = img_db_path = os.path.join(os.getcwd(), 'img_db')
     frame = cv2.imread(image_path)
     face = detector(frame)
     result={"id":"","message":"","success":False}

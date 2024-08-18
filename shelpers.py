@@ -3,6 +3,7 @@ import cv2
 from deepface import DeepFace
 import matplotlib.pyplot as plt
 import sqlite3
+import argparse
 
 
 
@@ -60,13 +61,13 @@ def get_id(list_list_df):
 
 
 def delete_representations():
-    db_path = os.path.join(settings.MEDIA_ROOT, 'img_db')
+    db_path = os.path.join(os.getcwd(), 'img_db')
     for obj in os.listdir(db_path):
         if obj.endswith(".pkl"):
             path = os.path.join(db_path, obj)
             os.remove(path)
             print("previous representations deleted")
-    return
+    return 
 
 
 def delete_id(id):
@@ -149,3 +150,29 @@ def get_user_info(id):
 
 # a=delete_id("sta")
 # print(a)
+
+
+# Command-line interface
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Run specific functions from the script.")
+    parser.add_argument("function", type=str, help="Name of the function to run")
+    parser.add_argument("--args", nargs="*", help="Arguments for the function")
+    
+    args = parser.parse_args()
+
+    # Run the function specified by the user
+    if args.function == "delete_id":
+        result = delete_id(*args.args)
+        print(result)
+    elif args.function == "write_to_db":
+        write_to_db(*args.args)
+    elif args.function == "get_user_info":
+        result = get_user_info(*args.args)
+        print(result)
+    elif args.function == "detection":
+        result = detection(*args.args)
+        print(result)
+    elif args.function == "delete_representations":
+        delete_representations()
+    else:
+        print(f"Function {args.function} is not recognized.")
