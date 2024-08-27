@@ -6,6 +6,7 @@ import base64
 from io import BytesIO
 from PIL import Image
 import os
+import matplotlib.pyplot as plt
 
 def get_img_base64(ge: Image):
     buffered = BytesIO()
@@ -18,6 +19,15 @@ def process_img(uploaded_image):
         temp_path = file.name
         image.save(temp_path)
         return temp_path, image
+     
+    def visulaize_frame(frame):
+        # Convert BGR to RGB (OpenCV uses BGR by default)
+        image_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+
+        # Display the image using Matplotlib
+        plt.imshow(image_rgb)
+        plt.axis("off")  # Turn off axis labels
+        plt.show()
 
 st.header("Welcome to Face Recognition Interface")
 
@@ -44,7 +54,9 @@ if lc.button("Recognize"):
     if uploaded_image is not None:
          path, image= process_img(uploaded_image)
     
-    result = face_detect(path)
+    result = face_detect(path,append_img=True)
+    img = result.pop("image_array")
+    st.write(visulaize_frame(img))
     st.markdown(f"<div class='registered'>{result}</div>", unsafe_allow_html=True)
     st.write(result)
     os.remove(path)
