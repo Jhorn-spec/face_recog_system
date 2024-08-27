@@ -185,12 +185,14 @@ def face_detect(image_path, append_img=False):
             result["success"]=True
             result["message"]="successful"
             if append_img:
-                result["image_array"].append(crop_img)
+                result["image_array"]=crop_img
 
         else:
             result["id"]=""
             result["success"]=False
             result["message"]="No match found"
+            if append_img:
+                result["image_array"]=crop_img
         # print(result)
 
         return result
