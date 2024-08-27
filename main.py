@@ -36,27 +36,31 @@ uploaded_image = st.file_uploader("Upload  image", type=["jpg", "jpeg", "png"], 
 rc, _, lc = st.columns(3)
 if rc.button("Register"):
         if uploaded_image is not None:
-             path, image = process_img(uploaded_image)
-        
-        result = register_face(id, path)
-        if result['success'] != True:
-             st.error(f"{result['message']}", icon="🚨")
+            path, image = process_img(uploaded_image)
+             
+            result = register_face(id, path)
+            if result['success'] != True:
+                st.error(f"{result['message']}", icon="🚨")
+            else:
+                st.markdown(f"<div class='registered'>{result}</div>", unsafe_allow_html=True)
+                # st.write(result)
+                os.remove(path)
         else:
-            st.markdown(f"<div class='registered'>{result}</div>", unsafe_allow_html=True)
-            # st.write(result)
-            os.remove(path)
+             st.error('Upload an image to register', icon="🚨")
 
 if lc.button("Recognize"):
     if uploaded_image is not None:
-         path, image= process_img(uploaded_image)
+        path, image= process_img(uploaded_image)
     
-    result = face_detect(path,append_img=True)
-    img_path = visulaize_frame(result.pop("image_array"))
-    st.markdown(f"<div class='registered'>{result}</div>", unsafe_allow_html=True)
-    st.image(img_path)
-    # st.write(result)
-    os.remove(path)
-    os.remove(img_path)
+        result = face_detect(path,append_img=True)
+        img_path = visulaize_frame(result.pop("image_array"))
+        st.markdown(f"<div class='registered'>{result}</div>", unsafe_allow_html=True)
+        st.image(img_path)
+        # st.write(result)
+        os.remove(path)
+        os.remove(img_path)
+    else:
+        st.error('Upload an image to recognise', icon="🚨")
 
 
 
