@@ -1,4 +1,4 @@
-#!/Users/bajots/Documents/work/face_recog_system/face/bin/python
+#!/Users/bajots/Documents/work/face_recog_system/face/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys
