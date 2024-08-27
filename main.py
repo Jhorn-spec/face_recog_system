@@ -50,11 +50,8 @@ if lc.button("Recognize"):
     result = face_detect(path,append_img=True)
     img_path = visulaize_frame(result.pop("image_array"))
     st.markdown(f"<div class='registered'>{result}</div>", unsafe_allow_html=True)
-    st.markdown(f"""
-            <img class="circle-img", src="{img_path}">
-    """,
-    unsafe_allow_html=True)
-    st.write(result)
+    st.image(img_path)
+    # st.write(result)
     os.remove(path)
     os.remove(img_path)
 
