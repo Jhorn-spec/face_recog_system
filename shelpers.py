@@ -50,6 +50,7 @@ def visulaize_frame(frame):
     plt.imsave(path,image_rgb)
     # plt.axis("off")  # Turn off axis labels
     # plt.show()
+    return path
 
 
 def get_id(list_list_df):
