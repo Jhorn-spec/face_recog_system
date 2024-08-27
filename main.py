@@ -46,7 +46,14 @@ if rc.button("Register"):
                 # st.write(result)
                 os.remove(path)
         else:
-             st.error('Upload an image to register', icon="🚨")
+            result = register_face(id, live=True)
+            if result['success'] != True:
+                st.error(f"{result['message']}", icon="🚨")
+            else:
+                st.markdown(f"<div class='registered'>{result}</div>", unsafe_allow_html=True)
+                # st.write(result)
+                os.remove(path)
+            #  st.error('Upload an image to register', icon="🚨")
 
 if lc.button("Recognize"):
     if uploaded_image is not None:
