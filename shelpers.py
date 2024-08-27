@@ -46,7 +46,8 @@ def visulaize_frame(frame):
     image_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
     # Display the image using Matplotlib
-    plt.imsave("./pick.png",image_rgb)
+    path = os.path.join(os.getcwd(), "pick.png")
+    plt.imsave(path,image_rgb)
     # plt.axis("off")  # Turn off axis labels
     # plt.show()
 
