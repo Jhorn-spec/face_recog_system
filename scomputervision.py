@@ -18,15 +18,8 @@ def register_face(id, upload_image=None, live = False):
 
     # check for duplicate id
     if id + '.jpg' in os.listdir(img_db_path):
-        print("id already exists")
         result["message"] = "id already exists"
-        check = input("Enter new id or enter 'x' to quit: ").lower()
-        if check == 'x':
-            print("exiting process...")
-            result['message'] = "No face registered.... exiting process"
-            return result
-        else:
-            id = check
+        return result
 
 
     if live:
