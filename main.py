@@ -1,6 +1,7 @@
 import streamlit as st
 from scomputervision import register_face, face_detect
 from deepface import DeepFace
+from shelpers import visulaize_frame
 import tempfile
 import base64
 from io import BytesIO
@@ -20,14 +21,6 @@ def process_img(uploaded_image):
         image.save(temp_path)
         return temp_path, image
      
-    def visulaize_frame(frame):
-        # Convert BGR to RGB (OpenCV uses BGR by default)
-        image_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-
-        # Display the image using Matplotlib
-        plt.imshow(image_rgb)
-        plt.axis("off")  # Turn off axis labels
-        plt.show()
 
 st.header("Welcome to Face Recognition Interface")
 
@@ -56,8 +49,8 @@ if lc.button("Recognize"):
     
     result = face_detect(path,append_img=True)
     img = result.pop("image_array")
-    st.write(visulaize_frame(img))
     st.markdown(f"<div class='registered'>{result}</div>", unsafe_allow_html=True)
+    st.write(visulaize_frame(img))
     st.write(result)
     os.remove(path)
 
