@@ -132,11 +132,14 @@ def register_face(id, upload_image=None, live = False):
 
 
 # take in the path to the image database
-def face_detect(image_path):
+def face_detect(image_path, append_img=False):
     img_db_path = img_db_path = os.path.join(os.getcwd(), 'img_db')
     frame = cv2.imread(image_path)
     face = detector(frame)
-    result={"id":"","message":"","success":False}
+    if append_img:
+        result={"id":"","message":"","success":False,"image_array":[]}
+    else:
+        result={"id":"","message":"","success":False}
 
     dfs = []
     if face is not None:
@@ -181,6 +184,9 @@ def face_detect(image_path):
             result["id"]=user_id
             result["success"]=True
             result["message"]="successful"
+            if append_img:
+                result["image_array"].append(crop_img)
+
         else:
             result["id"]=""
             result["success"]=False

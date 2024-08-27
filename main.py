@@ -29,21 +29,11 @@ with open('style.css') as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
 uploaded_image = st.file_uploader("Upload  image", type=["jpg", "jpeg", "png"], accept_multiple_files=False)
-image = Image.open(uploaded_image)
-image_base64 = get_img_base64(image)
-l, m, r = st.columns(3)
-with m:
-    st.markdown(
-        f"""
-        <img class="circle-img" src="data:image/png;base64,{image_base64}">
-        """,
-        unsafe_allow_html=True
-    )
-st.write("")
+
 rc, _, lc = st.columns(3)
 if rc.button("Register"):
         if uploaded_image is not None:
-            path, image = process_img(uploaded_image)
+             path, image = process_img(uploaded_image)
         
         result = register_face(id, path)
         st.markdown(f"<div class='registered'>{result}</div>", unsafe_allow_html=True)
