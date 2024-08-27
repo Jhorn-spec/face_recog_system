@@ -41,15 +41,14 @@ def check_duplicate_registration(id):
     # else:
     #     return False
 
-
 def visulaize_frame(frame):
     # Convert BGR to RGB (OpenCV uses BGR by default)
     image_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
     # Display the image using Matplotlib
-    plt.imshow(image_rgb)
-    plt.axis("off")  # Turn off axis labels
-    plt.show()
+    plt.imsave("./pick.png",image_rgb)
+    # plt.axis("off")  # Turn off axis labels
+    # plt.show()
 
 
 def get_id(list_list_df):
